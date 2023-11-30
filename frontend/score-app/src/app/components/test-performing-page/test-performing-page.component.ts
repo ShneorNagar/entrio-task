@@ -6,6 +6,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormsModule } from '@angular/forms';
 import { TestResult, TestScoreSeverity } from '../../models/test-result.model';
 import { TagModule } from 'primeng/tag';
+import { ROUTES } from '../../app.routes';
 
 const PRIME_NG_MODULES = [ListboxModule, TagModule];
 
@@ -22,12 +23,12 @@ export class TestPerformingPageComponent {
   dialogVisible: boolean = false;
 
   sidebarVisible: boolean = false;
-  selectedTestResult: TestResult | undefined;
+  selectedTestResult: TestResult;
 
   constructor(private testsService: TestsService, private router: Router) {}
 
   ngOnInit() {
-    this.testsService.testsResults
+    this.testsService.testsResults$
       .pipe(untilDestroyed(this))
       .subscribe((testsResults) => {
         this.testsResults = testsResults;
@@ -38,11 +39,12 @@ export class TestPerformingPageComponent {
     this.selectedTestResult = this.testsResults.find(
       (t: TestResult) => t.companyName === event.option?.companyName
     );
-    console.log(event);
-  }
-
-  onDefineNewTestClick() {
-    // this.router.navigateByUrl(ROUTES.testDefinitionsPage);
+    this.testsService.selectedTestResult = this.selectedTestResult;
+    this.router.navigate([ROUTES.testRsultsPage], {
+      queryParams: {
+        id: this.selectedTestResult.id,
+      },
+    });
   }
 
   // todo use in create test

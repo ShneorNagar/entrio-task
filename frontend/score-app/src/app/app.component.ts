@@ -63,7 +63,6 @@ export class AppComponent {
 
   onActiveItemChange(event: MenuItem) {
     this.activeItem = event;
-    console.log(this.activeItem);
     this.routerService.navigateByUrl(this.activeItem.routerLink);
   }
 }

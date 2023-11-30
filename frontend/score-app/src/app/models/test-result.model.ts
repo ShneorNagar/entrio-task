@@ -3,6 +3,7 @@ import { TestModel } from "./test.model";
 export type TestScoreSeverity = 'danger' | 'warning' | 'info' | 'success'
 
 export type TestResult = {
+    id: string;
     companyName: string;
     test: TestModel;
     answers: any[]; // todo merge with questions

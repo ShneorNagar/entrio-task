@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TestModel } from '../models/test.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { TestResult } from '../models/test-result.model';
 
 @Injectable({
@@ -9,6 +9,7 @@ import { TestResult } from '../models/test-result.model';
 export class TestsService {
   readonly TESTS: TestModel[] = [
     {
+      id: '1',
       name: 'test1',
       description: 'description1',
       criterias: [
@@ -37,6 +38,7 @@ export class TestsService {
       ],
     },
     {
+      id: '2',
       name: 'test2',
       description: 'description2',
       criterias: [
@@ -63,7 +65,9 @@ export class TestsService {
           ],
         },
       ],
-    },{
+    },
+    {
+      id: '3',
       name: 'test3',
       description: 'description3',
       criterias: [
@@ -95,13 +99,15 @@ export class TestsService {
 
   readonly TESTS_RESULTS: TestResult[] = [
     {
+      id: '1',
       companyName: 'company 1',
       finalScore: 3.5,
       scoreSeverity: 'success',
       answers: [123],
       test: {
+        id: '1',
         name: 't1',
-        description:'d1',
+        description: 'd1',
         criterias: [
           {
             question: 'question1',
@@ -126,16 +132,18 @@ export class TestsService {
             ],
           },
         ],
-      }
+      },
     },
     {
+      id: '2',
       companyName: 'company 2',
       finalScore: 1.3,
       scoreSeverity: 'warning',
       answers: [12],
       test: {
+        id: '2',
         name: 't1',
-        description:'d1',
+        description: 'd1',
         criterias: [
           {
             question: 'question1',
@@ -160,18 +168,29 @@ export class TestsService {
             ],
           },
         ],
-      }
-    }
-  ]
+      },
+    },
+  ];
 
   private _tests$ = new BehaviorSubject<TestModel[]>(this.TESTS);
-  private _testsResults$ = new BehaviorSubject<TestResult[]>(this.TESTS_RESULTS);
+  private _selectedTestResult$ = new Subject<TestResult>();
+  private _testsResults$ = new BehaviorSubject<TestResult[]>(
+    this.TESTS_RESULTS
+  );
 
-  get tests() {
+  get tests$() {
     return this._tests$.asObservable();
   }
 
-  get testsResults() {
+  get testsResults$() {
     return this._testsResults$.asObservable();
+  }
+
+  get selectedTestResult$() {
+    return this._selectedTestResult$.asObservable();
+  }
+
+  set selectedTestResult(test: TestResult) {
+    this._selectedTestResult$.next(test);
   }
 }

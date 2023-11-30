@@ -7,18 +7,14 @@ import { TestModel } from '../../models/test.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
 import { ROUTES } from '../../app.routes';
-import { JsonPipe } from '@angular/common';
-import { SidebarModule } from 'primeng/sidebar';
 
-
-
-const PRIMENG_MODULS = [ListboxModule, ButtonModule, SidebarModule];
+const PRIMENG_MODULS = [ListboxModule, ButtonModule];
 
 @UntilDestroy()
 @Component({
   selector: 'app-administration-page',
   standalone: true,
-  imports: [FormsModule, PRIMENG_MODULS, JsonPipe],
+  imports: [FormsModule, PRIMENG_MODULS],
   templateUrl: './administration-page.component.html',
   styleUrl: './administration-page.component.scss',
 })
@@ -26,13 +22,12 @@ export class AdministrationPageComponent {
   tests: TestModel[] = [];
   dialogVisible: boolean = false;
 
-  sidebarVisible: boolean = false;
   selectedTest: TestModel | undefined;
 
   constructor(private testsService: TestsService, private router: Router) {}
 
   ngOnInit() {
-    this.testsService.tests.pipe(untilDestroyed(this)).subscribe((tests) => {
+    this.testsService.tests$.pipe(untilDestroyed(this)).subscribe((tests) => {
       this.tests = tests;
     });
   }

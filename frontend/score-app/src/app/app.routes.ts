@@ -19,10 +19,10 @@ export const routes: Routes = [
     component: TestDefinitionPageComponent,
     pathMatch: 'full',
   },
-  { path: 'results', component: TestResultPageComponent, pathMatch: 'full' },
   {
     path: 'performing',
     component: TestPerformingPageComponent,
     pathMatch: 'full',
   },
+  { path: 'results', component: TestResultPageComponent},
 ];
