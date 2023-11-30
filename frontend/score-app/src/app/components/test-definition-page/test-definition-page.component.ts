@@ -20,7 +20,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 })
 export class TestDefinitionPageComponent {
   form: FormGroup;
-  
+
   get name() {
     return this.form.get('name') as FormControl;
   }
@@ -39,7 +39,7 @@ export class TestDefinitionPageComponent {
     this.form = this.fb.group({
       name: [''],
       description: [''],
-      criterias: this.fb.array([this.buildCriteriaControls()]),
+      criterias: this.fb.array([]),
     });
   }
 
@@ -80,5 +80,23 @@ export class TestDefinitionPageComponent {
       description: this.form.get('description').value,
       criterias: this.form.get('criterias').value,
     } as TestModel);
+    this.resetForm();
+  }
+
+  resetForm() {
+    this.form.reset();
+    this.resetCriterias();
+  }
+
+  resetCriterias() {
+    while (this.criterias.length !== 0) {
+      const answers = this.criterias.get('answers') as FormArray;
+      if (answers?.length) {
+        while (answers.length !== 0) {
+          answers.removeAt(0);
+        }
+      }
+      this.criterias.removeAt(0);
+    }
   }
 }
