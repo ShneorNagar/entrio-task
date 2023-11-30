@@ -35,7 +35,7 @@ export class TestDefinitionPageComponent {
     return new FormGroup({
       question: this.fb.control(''),
       weight: this.fb.control(''),
-      answers: this.fb.array([])
+      answers: this.fb.array([]),
     });
   }
 
@@ -49,20 +49,25 @@ export class TestDefinitionPageComponent {
   addCriteria() {
     this.criterias.push(this.buildCriteriaControls());
     console.log(this.criterias);
-    
+  }
+
+  // not working
+  addAnswer(index: number) {
+    (this.criterias.at(index).get('answers') as FormArray).push(
+      this.buildAnswerControls()
+    );
+    console.log(this.criterias.at(index).get('answers'));
   }
 
   onSubmit() {
     console.log(this.form.value);
+    this.testsService.saveNewTest({
+      id: 'TEMP_ID',
+      name: this.form.get('name').value,
+      description: this.form.get('description').value,
+      criterias: this.form.get('criterias').value,
+    } as TestModel);
   }
-
-  // addTest() {
-  //   this.test.push(this.fb.control(''));
-  // }
-
-  // get test() {
-  //   return this.form.get('test') as FormArray;
-  // }
 
   get name() {
     return this.form.get('name') as FormControl;

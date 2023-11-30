@@ -23,6 +23,7 @@
         <label [htmlFor]="'weight_' + i">Weight #{{ i + 1 }}</label>
         <input pInputText [id]="'weight_' + i" [formControlName]="'weight'" />
       </div>
+      <p-button label="Add answer" (onClick)="addAnswer(i)"></p-button>
     </div>
   </section>
 
