@@ -1,1 +1,16 @@
-<p>test-performing-page works!</p>
+<p-listbox
+  [options]="testsResults"
+  [(ngModel)]="selectedTestResult"
+  optionLabel="companyName"
+  (onClick)="onItemClick($event)"
+  [style]="{ width: '15rem' }"
+  [listStyle]="{ 'max-height': '220px' }"
+  [filter]="true"
+>
+  <ng-template let-country pTemplate="item">
+    <div class="flex align-items-center gap-2">
+      <div>1</div>
+      <div>{{ country.companyName }}</div>
+    </div>
+  </ng-template>
+</p-listbox>
