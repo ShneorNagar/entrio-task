@@ -35,6 +35,61 @@ export class TestsService {
         },
       ],
     },
+    {
+      name: 'test2',
+      description: 'description2',
+      criterias: [
+        {
+          question: 'question1',
+          weight: 0.3,
+          answers: [
+            {
+              text: 'answer1',
+              score: 1,
+            },
+            {
+              text: 'answer2',
+              score: 2,
+            },
+            {
+              text: 'answer3',
+              score: 3,
+            },
+            {
+              text: 'answer4',
+              score: 4,
+            },
+          ],
+        },
+      ],
+    },{
+      name: 'test3',
+      description: 'description3',
+      criterias: [
+        {
+          question: 'question1',
+          weight: 0.3,
+          answers: [
+            {
+              text: 'answer1',
+              score: 1,
+            },
+            {
+              text: 'answer2',
+              score: 2,
+            },
+            {
+              text: 'answer3',
+              score: 3,
+            },
+            {
+              text: 'answer4',
+              score: 4,
+            },
+          ],
+        },
+      ],
+    },
   ];
 
   private _tests$ = new BehaviorSubject<TestModel[]>(this.TESTS);
