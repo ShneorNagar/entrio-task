@@ -1,0 +1,29 @@
+{
+  "test": {
+    "name": "firstTest",
+    "description": "firstDescription",
+    "criterias": [
+      {
+        "weight": 0.3,
+        "questions": [
+          {
+            "text": "question1",
+            "score": 1
+          },
+          {
+            "text": "question2",
+            "score": 2
+          },
+          {
+            "text": "question3",
+            "score": 3
+          },
+          {
+            "text": "question4",
+            "score": 4
+          }
+        ]
+      }
+    ]
+  }
+}
