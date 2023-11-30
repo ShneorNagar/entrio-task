@@ -27,7 +27,7 @@ export class TestDefinitionPageComponent {
     this.form = this.fb.group({
       name: [''],
       description: [''],
-      criterias: this.fb.array([]),
+      criterias: this.fb.array([this.buildCriteriaControls()]),
     });
   }
 
@@ -48,15 +48,16 @@ export class TestDefinitionPageComponent {
 
   addCriteria() {
     this.criterias.push(this.buildCriteriaControls());
-    console.log(this.criterias);
   }
 
-  // not working
   addAnswer(index: number) {
     (this.criterias.at(index).get('answers') as FormArray).push(
       this.buildAnswerControls()
     );
-    console.log(this.criterias.at(index).get('answers'));
+  }
+
+  criteriaAnswers(criteriaIndex: number): FormArray {
+    return this.criterias.at(criteriaIndex).get('answers') as FormArray;
   }
 
   onSubmit() {
