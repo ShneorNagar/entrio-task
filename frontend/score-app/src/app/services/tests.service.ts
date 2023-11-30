@@ -25,14 +25,16 @@ export class TestsService {
               text: 'answer2',
               score: 2,
             },
+          ],
+        },
+        {
+          question: 'question2',
+          weight: 0.5,
+          answers: [
             {
-              text: 'answer3',
-              score: 3,
-            },
-            {
-              text: 'answer4',
-              score: 4,
-            },
+              text: 'answer1',
+              score: 1,
+            }
           ],
         },
       ],
@@ -197,6 +199,5 @@ export class TestsService {
   // todo send to backend
   saveNewTest(test: TestModel) {
     console.log('test saved. data: ', test);
-    
   }
 }

@@ -3,9 +3,58 @@
 ></ng-container>
 
 <ng-template #newTest>
-    new test
+  <section>
+    <div>
+      <label [htmlFor]="'companyName'">Company name:</label>
+      <input
+        pInputText
+        [id]="'companyName'"
+        [formControlName]="'companyName'"
+      />
+    </div>
+
+    <p-dropdown
+      [options]="tests"
+      [(ngModel)]="selectedTest"
+      optionLabel="name"
+      [showClear]="true"
+      placeholder="Select a Test"
+      (onChange)="onTestItemClick($event)"
+    ></p-dropdown>
+  </section>
+
+  <section *ngIf="selectedTest && form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div formArrayName="criterias">
+        <div
+          *ngFor="let criteria of criterias.controls; let i = index"
+          [formGroupName]="i"
+        >
+          <label>{{ criteria.get("question").value }}</label>
+          <div formArrayName="answers">
+            <div
+              *ngFor="let answer of criteriaAnswers(i).controls; let j = index"
+              [formGroupName]="j"
+            >
+              <input
+                type="radio"
+                [id]="'answer_' + i + '_' + j"
+                [value]="answer.get('text_' + j).value"
+                [name]="'question_' + i"
+                formControlName="selectedAnswer"
+              />
+              <label [for]="'answer_' + i + '_' + j">{{
+                answer.get("text_" + j).value
+              }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p-button type="submit" label="save"></p-button>
+    </form>
+  </section>
 </ng-template>
 
 <ng-template #viewTestResult>
-    {{currentTestResult | json}}
+  {{ currentTestResult | json }}
 </ng-template>

@@ -11,13 +11,21 @@ import { ListboxModule } from 'primeng/listbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { TabMenuModule } from 'primeng/tabmenu';
+import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-
-const PRIMENG_MODULS = [ListboxModule, ButtonModule, InputTextModule, TagModule, TabMenuModule, DialogModule];
+const PRIMENG_MODULS = [
+  ListboxModule,
+  ButtonModule,
+  InputTextModule,
+  TagModule,
+  TabMenuModule,
+  DialogModule,
+  DropdownModule
+];
 
 @NgModule({
   declarations: [
@@ -27,7 +35,14 @@ const PRIMENG_MODULS = [ListboxModule, ButtonModule, InputTextModule, TagModule,
     TestPerformingPageComponent,
     TestResultPageComponent,
   ],
-  imports: [BrowserModule, BrowserAnimationsModule,  AppRoutingModule, FormsModule, ReactiveFormsModule, PRIMENG_MODULS],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PRIMENG_MODULS,
+  ],
   providers: [],
   bootstrap: [
     AppComponent,

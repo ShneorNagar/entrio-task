@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListboxClickEvent, ListboxModule } from 'primeng/listbox';
 import { TestsService } from '../../services/tests.service';
 import { Router } from '@angular/router';
@@ -15,6 +15,7 @@ const PRIME_NG_MODULES = [ListboxModule, TagModule];
   selector: 'app-test-performing-page',
   templateUrl: './test-performing-page.component.html',
   styleUrls: ['./test-performing-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TestPerformingPageComponent {
   testsResults: TestResult[] = [];

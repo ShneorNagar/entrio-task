@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -17,6 +17,7 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
   selector: 'app-test-definition-page',
   templateUrl: './test-definition-page.component.html',
   styleUrls: ['./test-definition-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TestDefinitionPageComponent {
   form: FormGroup;

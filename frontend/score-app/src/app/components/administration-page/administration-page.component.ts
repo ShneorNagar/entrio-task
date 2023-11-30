@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ListboxClickEvent } from 'primeng/listbox';
 import { TestsService } from '../../services/tests.service';
 import { TestModel } from '../../models/test.model';
@@ -12,6 +12,7 @@ import { ROUTES } from 'src/app/app-routing.module';
   selector: 'app-administration-page',
   templateUrl: './administration-page.component.html',
   styleUrls: ['./administration-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdministrationPageComponent {
   tests: TestModel[] = [];
