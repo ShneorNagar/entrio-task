@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -10,7 +11,6 @@ import { TestsService } from '../../services/tests.service';
 import { ButtonModule } from 'primeng/button';
 import { TestModel } from '../../models/test.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-
 
 @UntilDestroy()
 @Component({
@@ -21,50 +21,58 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 export class TestDefinitionPageComponent {
   form: FormGroup;
 
-  get criteria(): FormArray<any> {
-    return this.form?.get('criterias') as FormArray;
-  }
-
   constructor(private fb: FormBuilder, private testsService: TestsService) {}
 
   ngOnInit(): void {
-
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
+      name: [''],
+      description: [''],
       criterias: this.fb.array([]),
     });
   }
 
-  createCriteriaFormGroup() {
-    return this.fb.group({
-      question: ['', Validators.required],
-      weight: [0, Validators.required],
-      answers: this.fb.array([this.createAnswerFormGroup()]),
+  buildCriteriaControls() {
+    return new FormGroup({
+      question: this.fb.control(''),
+      weight: this.fb.control(''),
+      answers: this.fb.array([])
     });
   }
 
-  createAnswerFormGroup() {
-    return this.fb.group({
-      text: ['', Validators.required],
-      score: [0, Validators.required],
+  buildAnswerControls() {
+    return new FormGroup({
+      text: this.fb.control(''),
+      score: this.fb.control(''),
     });
-  }
-
-  onSubmit() {
-    if (this.form.valid) {
-      // Handle the form data, e.g., send it to a server
-      console.log(this.form.value);
-    }
   }
 
   addCriteria() {
-    (this.form.get('criterias') as FormArray).push(
-      this.fb.array([this.createCriteriaFormGroup()])
-    );
+    this.criterias.push(this.buildCriteriaControls());
+    console.log(this.criterias);
+    
   }
 
-  getCriterias() {
-    return (this.form.get('criterias') as FormArray).controls;
+  onSubmit() {
+    console.log(this.form.value);
+  }
+
+  // addTest() {
+  //   this.test.push(this.fb.control(''));
+  // }
+
+  // get test() {
+  //   return this.form.get('test') as FormArray;
+  // }
+
+  get name() {
+    return this.form.get('name') as FormControl;
+  }
+
+  get description() {
+    return this.form.get('description') as FormControl;
+  }
+
+  get criterias() {
+    return this.form.get('criterias') as FormArray;
   }
 }

@@ -1,14 +1,11 @@
 import { Component } from '@angular/core';
-import { ListboxClickEvent, ListboxModule } from 'primeng/listbox';
-import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { ListboxClickEvent } from 'primeng/listbox';
 import { TestsService } from '../../services/tests.service';
 import { TestModel } from '../../models/test.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
 import { ROUTES } from 'src/app/app-routing.module';
 
-const PRIMENG_MODULS = [ListboxModule, ButtonModule];
 
 @UntilDestroy()
 @Component({
