@@ -1,0 +1,23 @@
+<p-button label="Define new test" (onClick)="onDefineNewTestClick()"></p-button>
+
+<p-listbox
+  [options]="tests"
+  [(ngModel)]="selectedTest"
+  optionLabel="name"
+  (onClick)="onItemClick($event)"
+  [style]="{ width: '15rem' }"
+  [listStyle]="{ 'max-height': '220px' }"
+  [filter]="true"
+></p-listbox>
+
+<div class="card flex justify-content-center">
+  <p-dialog
+    header="Header"
+    [modal]="true"
+    [(visible)]="visible"
+    [style]="{ width: '50vw' }"
+    [maximizable]="true"
+  >
+    {{ selectedTest | json }}
+  </p-dialog>
+</div>
