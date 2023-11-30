@@ -1,20 +1,19 @@
 import { Component } from '@angular/core';
 import { ListboxClickEvent, ListboxModule } from 'primeng/listbox';
-import { TestModel } from '../../models/test.model';
 import { TestsService } from '../../services/tests.service';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { ROUTES } from '../../app.routes';
 import { FormsModule } from '@angular/forms';
-import { TestResult } from '../../models/test-result.model';
+import { TestResult, TestScoreSeverity } from '../../models/test-result.model';
+import { TagModule } from 'primeng/tag';
 
-const PRIME_NG_MODULES = [ListboxModule];
+const PRIME_NG_MODULES = [ListboxModule, TagModule];
 
 @UntilDestroy()
 @Component({
   selector: 'app-test-performing-page',
   standalone: true,
-  imports: [ListboxModule, FormsModule],
+  imports: [ListboxModule, FormsModule, PRIME_NG_MODULES],
   templateUrl: './test-performing-page.component.html',
   styleUrl: './test-performing-page.component.scss',
 })
@@ -44,5 +43,19 @@ export class TestPerformingPageComponent {
 
   onDefineNewTestClick() {
     // this.router.navigateByUrl(ROUTES.testDefinitionsPage);
+  }
+
+  // todo use in create test
+  scoreToSeverityMap(score: number): TestScoreSeverity {
+    switch (true) {
+      case score < 1:
+        return 'danger';
+      case score < 2:
+        return 'warning';
+      case score < 3:
+        return 'info';
+      default:
+        return 'success';
+    }
   }
 }

@@ -97,6 +97,7 @@ export class TestsService {
     {
       companyName: 'company 1',
       finalScore: 3.5,
+      scoreSeverity: 'success',
       answers: [123],
       test: {
         name: 't1',
@@ -129,7 +130,8 @@ export class TestsService {
     },
     {
       companyName: 'company 2',
-      finalScore: 3,
+      finalScore: 1.3,
+      scoreSeverity: 'warning',
       answers: [12],
       test: {
         name: 't1',
