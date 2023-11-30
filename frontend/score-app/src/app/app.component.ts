@@ -7,7 +7,7 @@ import { TestPerformingPageComponent } from './components/test-performing-page/t
 import { TestResultPageComponent } from './components/test-result-page/test-result-page.component';
 import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuItem } from 'primeng/api';
-import { ROUTES } from './app.routes';
+import { ROUTES } from './app-routing.module';
 
 const PAGES = [
   AdministrationPageComponent,
@@ -16,17 +16,13 @@ const PAGES = [
   TestResultPageComponent,
 ];
 
-const MODULS = [TabMenuModule];
-
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, RouterOutlet, PAGES, MODULS],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'score-app';
+  title = 'score-app-2';
 
   items: MenuItem[] | undefined;
 

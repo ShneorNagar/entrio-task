@@ -6,17 +6,15 @@ import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { FormsModule } from '@angular/forms';
 import { TestResult, TestScoreSeverity } from '../../models/test-result.model';
 import { TagModule } from 'primeng/tag';
-import { ROUTES } from '../../app.routes';
+import { ROUTES } from 'src/app/app-routing.module';
 
 const PRIME_NG_MODULES = [ListboxModule, TagModule];
 
 @UntilDestroy()
 @Component({
   selector: 'app-test-performing-page',
-  standalone: true,
-  imports: [ListboxModule, FormsModule, PRIME_NG_MODULES],
   templateUrl: './test-performing-page.component.html',
-  styleUrl: './test-performing-page.component.scss',
+  styleUrls: ['./test-performing-page.component.scss'],
 })
 export class TestPerformingPageComponent {
   testsResults: TestResult[] = [];

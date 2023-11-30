@@ -1,26 +1,21 @@
 import { Component } from '@angular/core';
-import { ListboxClickEvent, ListboxModule } from 'primeng/listbox';
-import { ButtonModule } from 'primeng/button';
-import { FormsModule } from '@angular/forms';
+import { ListboxClickEvent } from 'primeng/listbox';
 import { TestsService } from '../../services/tests.service';
 import { TestModel } from '../../models/test.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { Router } from '@angular/router';
-import { ROUTES } from '../../app.routes';
+import { ROUTES } from 'src/app/app-routing.module';
 
-const PRIMENG_MODULS = [ListboxModule, ButtonModule];
 
 @UntilDestroy()
 @Component({
   selector: 'app-administration-page',
-  standalone: true,
-  imports: [FormsModule, PRIMENG_MODULS],
   templateUrl: './administration-page.component.html',
-  styleUrl: './administration-page.component.scss',
+  styleUrls: ['./administration-page.component.scss'],
 })
 export class AdministrationPageComponent {
   tests: TestModel[] = [];
-  dialogVisible: boolean = false;
+  visible: boolean = false;
 
   selectedTest: TestModel | undefined;
 
@@ -34,7 +29,7 @@ export class AdministrationPageComponent {
 
   onItemClick(event: ListboxClickEvent) {
     this.selectedTest = this.tests.find((t) => t.name === event.option?.name);
-    console.log(event);
+    this.visible = true;
   }
 
   onDefineNewTestClick() {

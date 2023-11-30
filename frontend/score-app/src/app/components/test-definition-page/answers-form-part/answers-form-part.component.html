@@ -1,0 +1,18 @@
+<ng-container *ngIf="answers.controls?.length">
+  <div *ngFor="let a of answers.controls; let i = index" [formGroupName]="i">
+    <div>
+      <label [htmlFor]="'text_' + i">Text #{{ i + 1 }}</label>
+      <input pInputText [id]="'text_' + i" [formControlName]="'text'" />
+
+      <label [htmlFor]="'score_' + i">Score #{{ i + 1 }}</label>
+      <input
+        pInputText
+        type="number"
+        max="1"
+        step="0.1"
+        [id]="'score_' + i"
+        [formControlName]="'score'"
+      />
+    </div>
+  </div>
+</ng-container>

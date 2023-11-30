@@ -1,39 +1,63 @@
-<form [formGroup]="form">
-  <label htmlFor="name">Name</label>
-  <input pInputText id="name" formControlName="name" />
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <section>
+    <label htmlFor="name">Name</label>
+    <input pInputText id="name" formControlName="name" />
 
-  <label htmlFor="description">Description</label>
-  <input pInputText id="description" formControlName="description" />
+    <label htmlFor="description">Description</label>
+    <input pInputText id="description" formControlName="description" />
+  </section>
 
-  <p-button label="Add criteria" [link]="true" (onClick)="addCriteria()"></p-button>
-
-  <div>
-    {{getCriterias() | json}}
-  </div>
-
-  <!-- <div formArrayName="criterias">
+  <section formArrayName="criterias">
     <div
-      *ngFor="let criteria of form?.get('criterias')?.controls; let i = index"
-      [formGroupName]="{{ i }}"
+      *ngFor="let c of criterias.controls; let i = index"
+      [formGroupName]="i"
     >
-      <label for="question">Question:</label>
-      <input pInputText id="question" formControlName="question" />
+      <div>
+        <label [htmlFor]="'question_' + i">Question #{{ i + 1 }}</label>
+        <input
+          pInputText
+          [id]="'question_' + i"
+          [formControlName]="'question'"
+        />
 
-      <label for="weight">Weight:</label>
-      <input pInputText id="weight" formControlName="weight" />
-
-      <div formArrayName="answers">
-        <div
-          *ngFor="let answer of criteria.get('answers').controls; let j = index"
-          [formGroupName]="{{ j }}"
-        >
-          <label for="text">Answer Text:</label>
-          <input pInputText id="text" formControlName="text" />
-
-          <label for="score">Score:</label>
-          <input pInputText id="score" formControlName="score" />
-        </div>
+        <label [htmlFor]="'weight_' + i">Weight #{{ i + 1 }}</label>
+        <input
+          pInputText
+          type="number"
+          max="1"
+          step="0.1"
+          [id]="'weight_' + i"
+          [formControlName]="'weight'"
+        />
       </div>
+      <ng-container *ngIf="criteriaAnswers(i).controls?.length">
+        <section formArrayName="answers">
+          <div
+            *ngFor="let a of criteriaAnswers(i).controls; let j = index"
+            [formGroupName]="j"
+          >
+            <div>
+              <label [htmlFor]="'text_' + j">Text #{{ j + 1 }}</label>
+              <input pInputText [id]="'text_' + j" [formControlName]="'text'" />
+
+              <label [htmlFor]="'score_' + j">Score #{{ j + 1 }}</label>
+              <input
+                pInputText
+                type="number"
+                max="4"
+                step="1"
+                [id]="'score_' + j"
+                [formControlName]="'score'"
+              />
+            </div>
+          </div>
+        </section>
+      </ng-container>
+
+      <p-button label="Add answer" (onClick)="addAnswer(i)"></p-button>
     </div>
-  </div> -->
+  </section>
+
+  <p-button label="Add criteria" (onClick)="addCriteria()"></p-button>
+  <p-button type="submit" label="save"></p-button>
 </form>

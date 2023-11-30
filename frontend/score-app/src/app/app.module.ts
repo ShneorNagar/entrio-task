@@ -15,6 +15,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CriteriasFormPartComponent } from './components/test-definition-page/criterias-form-part/criterias-form-part.component';
+import { AnswersFormPartComponent } from './components/test-definition-page/answers-form-part/answers-form-part.component';
 
 
 const PRIMENG_MODULS = [ListboxModule, ButtonModule, InputTextModule, TagModule, TabMenuModule, DialogModule];
@@ -26,6 +28,8 @@ const PRIMENG_MODULS = [ListboxModule, ButtonModule, InputTextModule, TagModule,
     TestDefinitionPageComponent,
     TestPerformingPageComponent,
     TestResultPageComponent,
+    CriteriasFormPartComponent,
+    AnswersFormPartComponent,
   ],
   imports: [BrowserModule, BrowserAnimationsModule,  AppRoutingModule, FormsModule, ReactiveFormsModule, PRIMENG_MODULS],
   providers: [],

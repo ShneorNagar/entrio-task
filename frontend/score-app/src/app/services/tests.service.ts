@@ -193,4 +193,10 @@ export class TestsService {
   set selectedTestResult(test: TestResult) {
     this._selectedTestResult$.next(test);
   }
+
+  // todo send to backend
+  saveNewTest(test: TestModel) {
+    console.log('test saved. data: ', test);
+    
+  }
 }

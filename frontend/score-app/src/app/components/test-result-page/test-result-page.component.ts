@@ -8,10 +8,8 @@ import { ActivatedRoute } from '@angular/router';
 @UntilDestroy()
 @Component({
   selector: 'app-test-result-page',
-  standalone: true,
-  imports: [],
   templateUrl: './test-result-page.component.html',
-  styleUrl: './test-result-page.component.scss',
+  styleUrls: ['./test-result-page.component.scss'],
 })
 export class TestResultPageComponent implements OnInit {
   constructor(

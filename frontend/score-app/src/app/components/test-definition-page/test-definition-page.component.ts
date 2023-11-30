@@ -1,11 +1,9 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
+  FormControl,
   FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
@@ -14,63 +12,73 @@ import { ButtonModule } from 'primeng/button';
 import { TestModel } from '../../models/test.model';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-const PRIME_NG_MODULES = [InputTextModule, ButtonModule];
-
 @UntilDestroy()
 @Component({
   selector: 'app-test-definition-page',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, PRIME_NG_MODULES],
   templateUrl: './test-definition-page.component.html',
-  styleUrl: './test-definition-page.component.scss',
+  styleUrls: ['./test-definition-page.component.scss'],
 })
 export class TestDefinitionPageComponent {
   form: FormGroup;
+  
+  get name() {
+    return this.form.get('name') as FormControl;
+  }
 
-  get criteria(): FormArray<any> {
-    return this.form?.get('criterias') as FormArray;
+  get description() {
+    return this.form.get('description') as FormControl;
+  }
+
+  get criterias() {
+    return this.form.get('criterias') as FormArray;
   }
 
   constructor(private fb: FormBuilder, private testsService: TestsService) {}
 
   ngOnInit(): void {
-
     this.form = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      criterias: this.fb.array([]),
+      name: [''],
+      description: [''],
+      criterias: this.fb.array([this.buildCriteriaControls()]),
     });
   }
 
-  createCriteriaFormGroup() {
-    return this.fb.group({
-      question: ['', Validators.required],
-      weight: [0, Validators.required],
-      answers: this.fb.array([this.createAnswerFormGroup()]),
+  buildCriteriaControls() {
+    return new FormGroup({
+      question: this.fb.control(''),
+      weight: this.fb.control(''),
+      answers: this.fb.array([]),
     });
   }
 
-  createAnswerFormGroup() {
-    return this.fb.group({
-      text: ['', Validators.required],
-      score: [0, Validators.required],
+  buildAnswerControls() {
+    return new FormGroup({
+      text: this.fb.control(''),
+      score: this.fb.control(''),
     });
-  }
-
-  onSubmit() {
-    if (this.form.valid) {
-      // Handle the form data, e.g., send it to a server
-      console.log(this.form.value);
-    }
   }
 
   addCriteria() {
-    (this.form.get('criterias') as FormArray).push(
-      this.fb.array([this.createCriteriaFormGroup()])
+    this.criterias.push(this.buildCriteriaControls());
+  }
+
+  addAnswer(index: number) {
+    (this.criterias.at(index).get('answers') as FormArray).push(
+      this.buildAnswerControls()
     );
   }
 
-  getCriterias() {
-    return (this.form.get('criterias') as FormArray).controls;
+  criteriaAnswers(criteriaIndex: number): FormArray {
+    return this.criterias.at(criteriaIndex).get('answers') as FormArray;
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
+    this.testsService.saveNewTest({
+      id: 'TEMP_ID',
+      name: this.form.get('name').value,
+      description: this.form.get('description').value,
+      criterias: this.form.get('criterias').value,
+    } as TestModel);
   }
 }
