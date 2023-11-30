@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TestsService } from '../../services/tests.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TestResult } from '../../models/test-result.model';
-import { firstValueFrom } from 'rxjs';
+import { combineLatest, firstValueFrom } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @UntilDestroy()
@@ -12,16 +12,25 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./test-result-page.component.scss'],
 })
 export class TestResultPageComponent implements OnInit {
+  currentTestResult: TestResult;
+  isNewTest: boolean;
+
   constructor(
     private testsService: TestsService,
     private route: ActivatedRoute
   ) {}
 
-  currentTestResult: TestResult;
-
   async ngOnInit(): Promise<void> {
-    this.route.queryParams.subscribe((params) => {
-      console.log(params);
-    });
+    combineLatest([this.testsService.testsResults$, this.route.queryParams])
+      .pipe(untilDestroyed(this))
+      .subscribe(([testsResults, params]) => {
+        this.isNewTest = params['newTest'];
+        if (!this.isNewTest) {
+          this.currentTestResult = testsResults.find(
+            (t) => t.id === params['id']
+          );
+        }
+      });
+
   }
 }

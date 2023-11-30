@@ -45,6 +45,14 @@ export class TestPerformingPageComponent {
     });
   }
 
+  onNewTestClick() {
+    this.router.navigate([ROUTES.testRsultsPage], {
+      queryParams: {
+        newTest: true,
+      },
+    });
+  }
+
   // todo use in create test
   scoreToSeverityMap(score: number): TestScoreSeverity {
     switch (true) {

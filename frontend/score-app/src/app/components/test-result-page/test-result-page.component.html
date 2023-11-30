@@ -1,1 +1,11 @@
-<p>test-result-page works!</p>
+<ng-container
+  *ngTemplateOutlet="isNewTest ? newTest : viewTestResult"
+></ng-container>
+
+<ng-template #newTest>
+    new test
+</ng-template>
+
+<ng-template #viewTestResult>
+    {{currentTestResult | json}}
+</ng-template>
