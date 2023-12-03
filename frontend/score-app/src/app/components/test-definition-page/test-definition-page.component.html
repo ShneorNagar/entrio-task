@@ -1,34 +1,56 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <section>
-    <label htmlFor="name">Name</label>
-    <input pInputText id="name" formControlName="name" />
+    <span class="p-float-label">
+      <input pInputText id="name" formControlName="name" />
+      <label htmlFor="name">Name</label>
+    </span>
 
-    <label htmlFor="description">Description</label>
-    <input pInputText id="description" formControlName="description" />
+    <span class="p-float-label">
+      <textarea
+        id="description"
+        rows="3"
+        cols="30"
+        pInputTextarea
+        formControlName="description"
+      ></textarea>
+      <label for="description">Description</label>
+    </span>
   </section>
 
   <section formArrayName="criterias">
     <div
+      class="question-wrapper"
       *ngFor="let c of criterias.controls; let i = index"
       [formGroupName]="i"
     >
-      <div>
-        <label [htmlFor]="'question_' + i">Question #{{ i + 1 }}</label>
-        <input
-          pInputText
-          [id]="'question_' + i"
-          [formControlName]="'question'"
-        />
+      <div class="question-input-and-btn">
+        <div class="question-container">
+          <span class="p-float-label">
+            <input
+              pInputText
+              [id]="'question_' + i"
+              [formControlName]="'question'"
+            />
+            <label [htmlFor]="'question_' + i">Question #{{ i + 1 }}</label>
+          </span>
 
-        <label [htmlFor]="'weight_' + i">Weight #{{ i + 1 }}</label>
-        <input
-          pInputText
-          type="number"
-          max="1"
-          step="0.1"
-          [id]="'weight_' + i"
-          [formControlName]="'weight'"
-        />
+          <span class="p-float-label">
+            <input
+              pInputText
+              max="1"
+              step="0.1"
+              [id]="'weight_' + i"
+              type="number"
+              [formControlName]="'weight'"
+            />
+            <label [htmlFor]="'weight_' + i">Weight #{{ i + 1 }}</label>
+          </span>
+        </div>
+        <p-button
+          icon="pi pi-plus"
+          pTooltip="Add answer"
+          (onClick)="addAnswer(i)"
+        ></p-button>
       </div>
       <ng-container *ngIf="criteriaAnswers(i).controls?.length">
         <section formArrayName="answers">
@@ -36,28 +58,36 @@
             *ngFor="let a of criteriaAnswers(i).controls; let j = index"
             [formGroupName]="j"
           >
-            <div>
-              <label [htmlFor]="'text_' + j">Text #{{ j + 1 }}</label>
-              <input pInputText [id]="'text_' + j" [formControlName]="'text'" />
+            <div class="answer-container">
+              <span class="p-float-label">
+                <input
+                  pInputText
+                  [id]="'text_' + j"
+                  [formControlName]="'text'"
+                />
+                <label [htmlFor]="'text_' + j">Answer #{{ j + 1 }}</label>
+              </span>
 
-              <label [htmlFor]="'score_' + j">Score #{{ j + 1 }}</label>
-              <input
-                pInputText
-                type="number"
-                max="4"
-                step="1"
-                [id]="'score_' + j"
-                [formControlName]="'score'"
-              />
+              <span class="p-float-label">
+                <input
+                  pInputText
+                  type="number"
+                  max="4"
+                  step="1"
+                  [id]="'score_' + j"
+                  [formControlName]="'score'"
+                />
+                <label [htmlFor]="'score_' + j">Score #{{ j + 1 }}</label>
+              </span>
             </div>
           </div>
         </section>
       </ng-container>
-
-      <p-button label="Add answer" (onClick)="addAnswer(i)"></p-button>
     </div>
   </section>
 
-  <p-button label="Add criteria" (onClick)="addCriteria()"></p-button>
-  <p-button type="submit" label="save"></p-button>
+  <div class="form-btns">
+    <p-button label="Add criteria" (onClick)="addCriteria()"></p-button>
+    <button type="submit" pButton pRipple label="Submit" class="p-button-success"></button>
+  </div>
 </form>

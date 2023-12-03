@@ -17,6 +17,8 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TreeModule } from 'primeng/tree';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TooltipModule } from 'primeng/tooltip';
 
 const PRIMENG_MODULS = [
   ListboxModule,
@@ -26,7 +28,9 @@ const PRIMENG_MODULS = [
   TabMenuModule,
   DialogModule,
   DropdownModule,
-  TreeModule
+  TreeModule,
+  InputTextareaModule,
+  TooltipModule
 ];
 
 @NgModule({

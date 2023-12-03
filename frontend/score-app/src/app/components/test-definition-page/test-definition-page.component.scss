@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 48px;
+
+  .p-float-label {
+    margin: 16px 0;
+  }
+
+  .question-input-and-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .question-wrapper {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .question-container,
+  .answer-container {
+    display: flex;
+    gap: 16px;
+  }
+
+  .answer-container {
+    margin-left: 16px;
+  }
+
+  .form-btns {
+    display: flex;
+    gap: 16px;
+  }
+}
