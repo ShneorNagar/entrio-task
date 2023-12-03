@@ -16,6 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TreeModule } from 'primeng/tree';
 
 const PRIMENG_MODULS = [
   ListboxModule,
@@ -24,7 +25,8 @@ const PRIMENG_MODULS = [
   TagModule,
   TabMenuModule,
   DialogModule,
-  DropdownModule
+  DropdownModule,
+  TreeModule
 ];
 
 @NgModule({

@@ -1,6 +1,11 @@
-<p-button label="Define new test" (onClick)="onDefineNewTestClick()"></p-button>
+<p-button
+  class="new-test-btn"
+  label="Define new test"
+  (onClick)="onDefineNewTestClick()"
+></p-button>
 
 <p-listbox
+  class="tests-list"
   [options]="tests"
   [(ngModel)]="selectedTest"
   optionLabel="name"
@@ -18,6 +23,8 @@
     [style]="{ width: '50vw' }"
     [maximizable]="true"
   >
-    {{ selectedTest | json }}
+    <div class="card flex justify-content-center">
+      <p-tree class="w-full md:w-30rem" [value]="treeNodes"></p-tree>
+    </div>
   </p-dialog>
 </div>
