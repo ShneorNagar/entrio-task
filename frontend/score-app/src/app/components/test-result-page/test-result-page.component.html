@@ -6,11 +6,7 @@
   <section>
     <div>
       <label [htmlFor]="'companyName'">Company name:</label>
-      <input
-        pInputText
-        type="text"
-        [(ngModel)]="companyNameInputValue"
-      />
+      <input pInputText type="text" [(ngModel)]="companyNameInputValue" />
     </div>
 
     <p-dropdown
@@ -27,9 +23,10 @@
     <div>
       <ng-container *ngIf="!testDone && !!selectedTest">
         <div>
-          <p>
-            Question {{ currentCriteriaIndex + 1}} /
-            {{ selectedTest?.criterias?.length }}
+          <p class="question">
+            {{selectedTest?.criterias?.[currentCriteriaIndex].question}} : ({{
+              currentCriteriaIndex + 1
+            }}/{{ selectedTest?.criterias?.length }})
           </p>
         </div>
         <div class="answers-container">
@@ -46,13 +43,21 @@
         </div>
         <div>
           <p-button
-            *ngIf="currentCriteriaNextIndex < selectedTest?.criterias?.length && selectedTest?.criterias?.length !== 1"
+            *ngIf="
+              currentCriteriaNextIndex < selectedTest?.criterias?.length &&
+              selectedTest?.criterias?.length !== 1
+            "
             label="Next"
             (onClick)="onNextQuestion()"
+            [disabled]="!companyNameInputValue"
           ></p-button>
           <p-button
-            *ngIf="currentCriteriaNextIndex === selectedTest?.criterias?.length || selectedTest?.criterias?.length === 1"
+            *ngIf="
+              currentCriteriaNextIndex === selectedTest?.criterias?.length ||
+              selectedTest?.criterias?.length === 1
+            "
             label="Done"
+            [disabled]="!companyNameInputValue"
             (onClick)="onDoneTest()"
           ></p-button>
         </div>

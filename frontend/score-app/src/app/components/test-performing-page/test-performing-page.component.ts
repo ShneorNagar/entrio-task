@@ -53,18 +53,4 @@ export class TestPerformingPageComponent {
       },
     });
   }
-
-  // todo use in create test
-  scoreToSeverityMap(score: number): TestScoreSeverity {
-    switch (true) {
-      case score < 1:
-        return 'danger';
-      case score < 2:
-        return 'warning';
-      case score < 3:
-        return 'info';
-      default:
-        return 'success';
-    }
-  }
 }

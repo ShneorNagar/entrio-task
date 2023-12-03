@@ -10,31 +10,95 @@ export class TestsService {
   readonly TESTS: TestModel[] = [
     {
       id: '1',
-      name: 'test1',
-      description: 'description1',
+      name: 'EntrioTest',
+      description: 'home assignment',
       criterias: [
         {
-          question: 'question1',
+          question: 'company size',
           weight: 0.3,
           answers: [
             {
-              text: 'answer1',
+              text: '1-10',
               score: 1,
             },
             {
-              text: 'answer2',
+              text: '11-100',
               score: 2,
+            },
+            {
+              text: '101-1000',
+              score: 3,
+            },
+            {
+              text: '1001 and up',
+              score: 4,
             },
           ],
         },
         {
-          question: 'question2',
-          weight: 0.5,
+          question: 'Company Funding',
+          weight: 0.4,
           answers: [
             {
-              text: 'answer1',
+              text: 'up to 1 M',
               score: 1,
-            }
+            },
+            {
+              text: '1M-10M',
+              score: 2,
+            },
+            {
+              text: '10M - 100M',
+              score: 3,
+            },
+            {
+              text: '100M and up',
+              score: 4,
+            },
+          ],
+        },
+        {
+          question: 'Company Age',
+          weight: 0.2,
+          answers: [
+            {
+              text: 'Up to 1 year',
+              score: 1,
+            },
+            {
+              text: '1-5 years',
+              score: 2,
+            },
+            {
+              text: '5-12 years',
+              score: 3,
+            },
+            {
+              text: '12 years or more',
+              score: 4,
+            },
+          ],
+        },
+        {
+          question: 'Leadership Experience',
+          weight: 0.1,
+          answers: [
+            {
+              text: 'No experience',
+              score: 1,
+            },
+            {
+              text: 'Short Experience',
+              score: 2,
+            },
+            {
+              text: 'Medium Experience',
+              score: 3,
+            },
+            {
+              text: 'Long Experience',
+              score: 4,
+            },
           ],
         },
       ],
