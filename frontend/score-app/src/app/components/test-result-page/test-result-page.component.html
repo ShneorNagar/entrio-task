@@ -68,19 +68,30 @@
 </ng-template>
 
 <ng-template #viewTestResult>
-  <div>
+  <div class="view-test-result">
     <div class="header">
-      <div>{{ currentTestResult.companyName }}</div>
-      <div>{{ currentTestResult.finalScore }}</div>
+      <div class="company-name">{{ currentTestResult.companyName }}</div>
+      <p-tag
+        [severity]="currentTestResult?.scoreSeverity"
+        [value]="currentTestResult?.finalScore + ''"
+      ></p-tag>
     </div>
     <section>
       <div *ngFor="let test of currentTestResult.tests || []">
         <div class="test-name">{{ test.name }}</div>
-        <div *ngFor="let criteria of test.criterias || []">
-          <div class="criteria-name">{{ criteria.question }}</div>
+        <div
+          *ngFor="let criteria of test.criterias || []; let even = even"
+          class="criteria-container"
+          [class.even]="even"
+        >
+          <div class="criteria-name">
+            {{ criteria.question }}
+          </div>
           <div *ngFor="let answer of criteria.answers || []">
-            <div class="answer-name">{{ answer.text }}</div>
-            <span *ngIf="answer.isSelected">selected</span>
+            <div class="answer-name">
+              {{ answer.text }}
+              <i *ngIf="answer.isSelected" class="pi pi-check"></i>
+            </div>
           </div>
         </div>
       </div>

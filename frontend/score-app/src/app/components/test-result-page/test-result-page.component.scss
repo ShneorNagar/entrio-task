@@ -1,4 +1,8 @@
 :host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 48px;
 
   .answers-container {
     display: flex;
@@ -16,5 +20,45 @@
     border-radius: 5px;
     border: 1px solid black;
     font-family: monospace;
+  }
+
+  .view-test-result {
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+      .company-name {
+        font-size: 3rem;
+      }
+    }
+    .test-name {
+      font-size: 2rem;
+    }
+
+    .criteria-container {
+      padding: 8px;
+      width: 33%;
+      border-radius: 5px;
+      margin: 8px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .criteria-name {
+        font-size: 1.5rem;
+      }
+
+      &.even {
+        background-color: rgb(59 130 246 / 15%);
+      }
+      &:not(.even) {
+        background-color: rgb(59 130 246 / 20%);
+      }
+
+      .pi-check {
+        margin-left: 4px;
+      }
+    }
   }
 }
