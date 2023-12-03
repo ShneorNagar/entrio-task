@@ -337,9 +337,7 @@ export class TestsService {
     },
   ];
 
-  private _allTests: TestModel[];
-
-  private _tests$ = new BehaviorSubject<TestModel[]>(this.TESTS);
+  private _tests$ = new BehaviorSubject<TestModel[]>([]);
   private _selectedTestResult$ = new Subject<TestResult>();
   private _testsResults$ = new BehaviorSubject<TestResult[]>(
     this.TESTS_RESULTS
@@ -365,18 +363,15 @@ export class TestsService {
     this.http
       .get<TestModel[]>('http://localhost:8080/tests')
       .subscribe((val) => {
-        this._allTests = val;
-        console.log('aaa ', this._allTests);
+        this._tests$.next(val);
       });
   }
 
-  // todo send to backend
   saveNewTest(test: TestModel) {
-    console.log('test saved. data: ', test);
+    this._tests$.next([...this._tests$.getValue(), test]);
   }
 
-  // todo send to backend
   saveNewTestResult(testResult: TestResult) {
-    console.log('test saved. data: ', testResult);
+    this._testsResults$.next([...this._testsResults$.getValue(), testResult])
   }
 }

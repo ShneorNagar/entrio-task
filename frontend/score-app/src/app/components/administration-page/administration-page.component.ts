@@ -34,6 +34,7 @@ export class AdministrationPageComponent {
   ngOnInit() {
     this.testsService.tests$.pipe(untilDestroyed(this)).subscribe((tests) => {
       this.tests = tests;
+      this.cd.markForCheck();
     });
   }
 
