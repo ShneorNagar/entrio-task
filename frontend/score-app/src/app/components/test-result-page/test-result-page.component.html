@@ -8,8 +8,8 @@
       <label [htmlFor]="'companyName'">Company name:</label>
       <input
         pInputText
-        [id]="'companyName'"
-        [formControlName]="'companyName'"
+        type="text"
+        [(ngModel)]="companyNameInputValue"
       />
     </div>
 
@@ -36,10 +36,10 @@
           <ng-container
             *ngFor="
               let answer of selectedTest?.criterias?.[currentCriteriaIndex].answers;
-              let i = index
+              let i = index;
             "
           >
-            <div class="answer">
+            <div class="answer" (click)="answerClick(currentCriteriaIndex, i)">
               {{ answer.text }}
             </div>
           </ng-container>

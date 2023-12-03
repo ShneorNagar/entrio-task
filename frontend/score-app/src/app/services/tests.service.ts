@@ -212,4 +212,9 @@ export class TestsService {
   saveNewTest(test: TestModel) {
     console.log('test saved. data: ', test);
   }
+
+  // todo send to backend
+  saveNewTestResult(testResult: TestResult) {
+    console.log('test saved. data: ', testResult);
+  }
 }

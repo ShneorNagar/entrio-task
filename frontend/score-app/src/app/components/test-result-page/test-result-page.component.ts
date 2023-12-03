@@ -2,15 +2,13 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
 } from '@angular/core';
 import { TestsService } from '../../services/tests.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TestResult } from '../../models/test-result.model';
-import { combineLatest, firstValueFrom } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { TestModel } from 'src/app/models/test.model';
-import { ListboxClickEvent } from 'primeng/listbox';
 import { DropdownChangeEvent } from 'primeng/dropdown';
 
 @UntilDestroy()
@@ -21,7 +19,6 @@ import { DropdownChangeEvent } from 'primeng/dropdown';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestResultPageComponent {
-
   currentCriteriaIndex = 0;
   currentCriteriaNextIndex = 1;
   testDone = false;
@@ -29,8 +26,9 @@ export class TestResultPageComponent {
   tests: TestModel[];
   selectedTest: TestModel;
   isNewTest: boolean;
-
-
+  companyNameInputValue: string;
+  selectedCriteriaIndex = 0;
+  selectedAnswerIndex = 0;
 
   constructor(
     private testsService: TestsService,
@@ -65,7 +63,22 @@ export class TestResultPageComponent {
     }
   }
 
+  answerClick(criteriaIndex: number, selectedAnswerIndex: number) {
+    this.selectedCriteriaIndex = criteriaIndex;
+    this.selectedAnswerIndex = selectedAnswerIndex;
+  }
+
+  updateSelectedAnswer() {
+    this.selectedTest.criterias[this.selectedCriteriaIndex].answers =
+      this.selectedTest.criterias[this.selectedCriteriaIndex].answers.map(
+        (a, i) => {
+          return { ...a, isSelected: i === this.selectedAnswerIndex };
+        }
+      );
+  }
+
   onNextQuestion() {
+    this.updateSelectedAnswer();
     if (this.currentCriteriaIndex < this.selectedTest.criterias?.length) {
       this.currentCriteriaIndex++;
       this.currentCriteriaNextIndex = this.currentCriteriaIndex + 1;
@@ -76,6 +89,22 @@ export class TestResultPageComponent {
   }
 
   onDoneTest() {
-    
+    this.updateSelectedAnswer();
+    console.log(this.selectedTest);
+    console.log(this.companyNameInputValue);
+    console.log(`final score: `, this.calcFinalScore());
+
+    // this.testsService.saveNewTestResult({});
+  }
+
+  calcFinalScore() {
+    return this.selectedTest.criterias.reduce((finalScore, criteria) => {
+      const criteriaScore = criteria.answers
+        .filter((a) => a.isSelected)
+        .reduce((totalScore, answer) => {
+          return totalScore + criteria.weight * answer.score;
+        }, 0);
+      return finalScore + criteriaScore;
+    }, 0);
   }
 }
