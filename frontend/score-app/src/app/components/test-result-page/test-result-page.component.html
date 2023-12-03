@@ -68,7 +68,24 @@
 </ng-template>
 
 <ng-template #viewTestResult>
-  {{ currentTestResult | json }}
+  <div>
+    <div class="header">
+      <div>{{ currentTestResult.companyName }}</div>
+      <div>{{ currentTestResult.finalScore }}</div>
+    </div>
+    <section>
+      <div *ngFor="let test of currentTestResult.tests || []">
+        <div class="test-name">{{ test.name }}</div>
+        <div *ngFor="let criteria of test.criterias || []">
+          <div class="criteria-name">{{ criteria.question }}</div>
+          <div *ngFor="let answer of criteria.answers || []">
+            <div class="answer-name">{{ answer.text }}</div>
+            <span *ngIf="answer.isSelected">selected</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </ng-template>
 
 <ng-template #done> done </ng-template>

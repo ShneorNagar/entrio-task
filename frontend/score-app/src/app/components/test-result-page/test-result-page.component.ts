@@ -46,13 +46,14 @@ export class TestResultPageComponent {
       .subscribe(([testsResults, tests, params]) => {
         this.tests = tests;
         this.isNewTest = params['newTest'] || !Object.keys(params).length;
-        // if (!this.isNewTest) {
-        //   this.currentTestResult = testsResults.find(
-        //     (t) => t.id === params['id']
-        //   );
-        // }
+        if (!this.isNewTest) {
+          this.currentTestResult = testsResults.find(
+            (t) => t.id === params['id']
+          );
+        }
       });
   }
+
 
   onTestItemClick(event: DropdownChangeEvent) {
     this.selectedTest = this.tests.find((t) => t.name === event.value?.name);
@@ -93,9 +94,7 @@ export class TestResultPageComponent {
     console.log(this.selectedTest);
     console.log(this.companyNameInputValue);
     const finalScore: number = Number(this.calcFinalScore().toFixed(1));
-    console.log(`final score: `, finalScore);
 
-    // todo get testsResults and uppend the test resut into them, than update
     this.testsService.saveNewTestResult({
       id: '1',
       companyName: this.companyNameInputValue,
