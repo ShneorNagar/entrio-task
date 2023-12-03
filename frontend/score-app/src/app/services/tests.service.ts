@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { TestModel } from '../models/test.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { TestResult } from '../models/test-result.model';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -190,7 +191,7 @@ export class TestsService {
           description: 'home assignment',
           criterias: [
             {
-              question: 'company size',
+              question: 'Company size',
               weight: 0.3,
               answers: [
                 {
@@ -336,6 +337,8 @@ export class TestsService {
     },
   ];
 
+  private _allTests: TestModel[];
+
   private _tests$ = new BehaviorSubject<TestModel[]>(this.TESTS);
   private _selectedTestResult$ = new Subject<TestResult>();
   private _testsResults$ = new BehaviorSubject<TestResult[]>(
@@ -356,6 +359,15 @@ export class TestsService {
 
   set selectedTestResult(test: TestResult) {
     this._selectedTestResult$.next(test);
+  }
+
+  constructor(private http: HttpClient) {
+    this.http
+      .get<TestModel[]>('http://localhost:8080/tests')
+      .subscribe((val) => {
+        this._allTests = val;
+        console.log('aaa ', this._allTests);
+      });
   }
 
   // todo send to backend
