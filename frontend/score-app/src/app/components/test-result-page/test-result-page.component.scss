@@ -1,0 +1,21 @@
+:host {
+
+  .answers-container {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+  }
+  .answer {
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+    cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 1.5rem;
+    font-family: monospace;
+  }
+}

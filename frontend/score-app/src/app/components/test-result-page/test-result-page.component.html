@@ -23,38 +23,47 @@
     ></p-dropdown>
   </section>
 
-  <section *ngIf="selectedTest && form">
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <div formArrayName="criterias">
-        <div
-          *ngFor="let criteria of criterias.controls; let i = index"
-          [formGroupName]="i"
-        >
-          <label>{{ criteria.get("question").value }}</label>
-          <div formArrayName="answers">
-            <div
-              *ngFor="let answer of criteriaAnswers(i).controls; let j = index"
-              [formGroupName]="j"
-            >
-              <input
-                type="radio"
-                [id]="'answer_' + i + '_' + j"
-                [value]="answer.get('text_' + j).value"
-                [name]="'question_' + i"
-                formControlName="selectedAnswer"
-              />
-              <label [for]="'answer_' + i + '_' + j">{{
-                answer.get("text_" + j).value
-              }}</label>
-            </div>
-          </div>
+  <section>
+    <div>
+      <ng-container *ngIf="!testDone && !!selectedTest">
+        <div>
+          <p>
+            Question {{ currentCriteriaIndex + 1}} /
+            {{ selectedTest?.criterias?.length }}
+          </p>
         </div>
-      </div>
-      <p-button type="submit" label="save"></p-button>
-    </form>
+        <div class="answers-container">
+          <ng-container
+            *ngFor="
+              let answer of selectedTest?.criterias?.[currentCriteriaIndex].answers;
+              let i = index
+            "
+          >
+            <div class="answer">
+              {{ answer.text }}
+            </div>
+          </ng-container>
+        </div>
+        <div>
+          <p-button
+            *ngIf="currentCriteriaNextIndex < selectedTest?.criterias?.length && selectedTest?.criterias?.length !== 1"
+            label="Next"
+            (onClick)="onNextQuestion()"
+          ></p-button>
+          <p-button
+            *ngIf="currentCriteriaNextIndex === selectedTest?.criterias?.length || selectedTest?.criterias?.length === 1"
+            label="Done"
+            (onClick)="onDoneTest()"
+          ></p-button>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="testDone"> done </ng-container>
+    </div>
   </section>
 </ng-template>
 
 <ng-template #viewTestResult>
   {{ currentTestResult | json }}
 </ng-template>
+
+<ng-template #done> done </ng-template>

@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { TestsService } from '../../services/tests.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { TestResult } from '../../models/test-result.model';
@@ -7,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TestModel } from 'src/app/models/test.model';
 import { ListboxClickEvent } from 'primeng/listbox';
 import { DropdownChangeEvent } from 'primeng/dropdown';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @UntilDestroy()
 @Component({
@@ -16,21 +20,22 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./test-result-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TestResultPageComponent implements OnInit {
+export class TestResultPageComponent {
+
+  currentCriteriaIndex = 0;
+  currentCriteriaNextIndex = 1;
+  testDone = false;
   currentTestResult: TestResult;
   tests: TestModel[];
   selectedTest: TestModel;
   isNewTest: boolean;
-  form: FormGroup;
 
-  get criterias() {
-    return this.form.get('criterias') as FormArray;
-  }
+
 
   constructor(
     private testsService: TestsService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private cd: ChangeDetectorRef
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -43,46 +48,34 @@ export class TestResultPageComponent implements OnInit {
       .subscribe(([testsResults, tests, params]) => {
         this.tests = tests;
         this.isNewTest = params['newTest'] || !Object.keys(params).length;
-        if (!this.isNewTest) {
-          this.currentTestResult = testsResults.find(
-            (t) => t.id === params['id']
-          );
-        }
+        // if (!this.isNewTest) {
+        //   this.currentTestResult = testsResults.find(
+        //     (t) => t.id === params['id']
+        //   );
+        // }
       });
   }
 
   onTestItemClick(event: DropdownChangeEvent) {
     this.selectedTest = this.tests.find((t) => t.name === event.value?.name);
     if (this.selectedTest) {
-      this.buildTestForm();
+      this.currentCriteriaNextIndex = this.currentCriteriaIndex = 0;
+      this.testDone = false;
+      this.cd.markForCheck();
     }
   }
 
-  buildTestForm() {
-    this.form = this.fb.group({
-      criterias: this.fb.array(
-        this.selectedTest.criterias.map((c) => {
-          return this.fb.group({
-            question: c.question,
-            answers: this.fb.array(
-              c.answers.map((a, i) => this.fb.group({
-                ['text_' + i]: a.text,
-                selectedAnswer: '', // Initially empty
-              }))
-            ),
-          });
-        })
-      ),
-    });
-    console.log(this.form);
+  onNextQuestion() {
+    if (this.currentCriteriaIndex < this.selectedTest.criterias?.length) {
+      this.currentCriteriaIndex++;
+      this.currentCriteriaNextIndex = this.currentCriteriaIndex + 1;
+    } else {
+      this.testDone = true;
+    }
+    this.cd.markForCheck();
   }
 
-  criteriaAnswers(criteriaIndex: number): FormArray {
-    return this.criterias.at(criteriaIndex).get('answers') as FormArray;
-  }
-
-  onSubmit() {
-    console.log(this.form.value);
+  onDoneTest() {
     
   }
 }

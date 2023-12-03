@@ -5,8 +5,7 @@ export type TestScoreSeverity = 'danger' | 'warning' | 'info' | 'success'
 export type TestResult = {
     id: string;
     companyName: string;
-    test: TestModel;
-    answers: any[]; // todo merge with questions
+    tests: TestModel[];
     finalScore: number;
     scoreSeverity: TestScoreSeverity; // using in <p-tag> element of primeNg
 }

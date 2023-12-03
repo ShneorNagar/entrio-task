@@ -53,6 +53,20 @@ export class TestsService {
               score: 1,
             },
             {
+              text: 'answer4',
+              score: 4,
+            },
+          ],
+        },
+        {
+          question: 'question2',
+          weight: 0.3,
+          answers: [
+            {
+              text: 'answer1',
+              score: 1,
+            },
+            {
               text: 'answer2',
               score: 2,
             },
@@ -105,8 +119,7 @@ export class TestsService {
       companyName: 'company 1',
       finalScore: 3.5,
       scoreSeverity: 'success',
-      answers: [123],
-      test: {
+      tests: [{
         id: '1',
         name: 't1',
         description: 'd1',
@@ -134,15 +147,14 @@ export class TestsService {
             ],
           },
         ],
-      },
+      }],
     },
     {
       id: '2',
       companyName: 'company 2',
       finalScore: 1.3,
       scoreSeverity: 'warning',
-      answers: [12],
-      test: {
+      tests: [{
         id: '2',
         name: 't1',
         description: 'd1',
@@ -170,7 +182,7 @@ export class TestsService {
             ],
           },
         ],
-      },
+      }],
     },
   ];
 
