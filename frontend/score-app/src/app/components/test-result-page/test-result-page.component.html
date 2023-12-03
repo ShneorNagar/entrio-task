@@ -3,10 +3,12 @@
 ></ng-container>
 
 <ng-template #newTest>
-  <section>
+  <section class="new-test-header">
     <div>
-      <label [htmlFor]="'companyName'">Company name:</label>
-      <input pInputText type="text" [(ngModel)]="companyNameInputValue" />
+      <span class="p-float-label">
+        <input pInputText type="text" [(ngModel)]="companyNameInputValue" />
+        <label [htmlFor]="'companyName'">Company name:</label>
+      </span>
     </div>
 
     <p-dropdown
@@ -19,52 +21,58 @@
     ></p-dropdown>
   </section>
 
-  <section>
-    <div>
-      <ng-container *ngIf="!testDone && !!selectedTest">
-        <div>
-          <p class="question">
-            {{selectedTest?.criterias?.[currentCriteriaIndex].question}} : ({{
-              currentCriteriaIndex + 1
-            }}/{{ selectedTest?.criterias?.length }})
-          </p>
-        </div>
-        <div class="answers-container">
-          <ng-container
-            *ngFor="
+  <section class="answers-section" *ngIf="!testDone && !!selectedTest">
+    <div class="question">
+      {{selectedTest?.criterias?.[currentCriteriaIndex].question}} : ({{
+        currentCriteriaIndex + 1
+      }}/{{ selectedTest?.criterias?.length }})
+    </div>
+    <div class="answers-container">
+      <ng-container
+        *ngFor="
               let answer of selectedTest?.criterias?.[currentCriteriaIndex].answers;
               let i = index;
             "
-          >
-            <div class="answer" (click)="answerClick(currentCriteriaIndex, i)">
-              {{ answer.text }}
-            </div>
-          </ng-container>
-        </div>
-        <div>
-          <p-button
-            *ngIf="
-              currentCriteriaNextIndex < selectedTest?.criterias?.length &&
-              selectedTest?.criterias?.length !== 1
-            "
-            label="Next"
-            (onClick)="onNextQuestion()"
-            [disabled]="!companyNameInputValue"
-          ></p-button>
-          <p-button
-            *ngIf="
-              currentCriteriaNextIndex === selectedTest?.criterias?.length ||
-              selectedTest?.criterias?.length === 1
-            "
-            label="Done"
-            [disabled]="!companyNameInputValue"
-            (onClick)="onDoneTest()"
-          ></p-button>
+      >
+        <div
+          class="answer"
+          [class.selected]="selectedAnswerIndex === i"
+          (click)="answerClick(currentCriteriaIndex, i)"
+        >
+          {{ answer.text }}
         </div>
       </ng-container>
-      <ng-container *ngIf="testDone"> done </ng-container>
+    </div>
+    <div>
+      <p-button
+        *ngIf="
+          currentCriteriaNextIndex < selectedTest?.criterias?.length &&
+          selectedTest?.criterias?.length !== 1
+        "
+        label="Next"
+        (onClick)="onNextQuestion()"
+        [disabled]="!companyNameInputValue"
+      ></p-button>
+      <p-button
+        *ngIf="
+          currentCriteriaNextIndex === selectedTest?.criterias?.length ||
+          selectedTest?.criterias?.length === 1
+        "
+        label="Done"
+        [disabled]="!companyNameInputValue"
+        (onClick)="onDoneTest()"
+      ></p-button>
     </div>
   </section>
+  <ng-container *ngIf="testDone">
+    <div class="final-score">
+      final score <br />
+      <p-tag
+        [severity]="testResult?.scoreSeverity"
+        [value]="finalScore + ''"
+      ></p-tag>
+    </div>
+  </ng-container>
 </ng-template>
 
 <ng-template #viewTestResult>

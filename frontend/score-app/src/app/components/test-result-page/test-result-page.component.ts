@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  HostBinding,
 } from '@angular/core';
 import { TestsService } from '../../services/tests.service';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
@@ -28,7 +29,14 @@ export class TestResultPageComponent {
   isNewTest: boolean;
   companyNameInputValue: string;
   selectedCriteriaIndex = 0;
-  selectedAnswerIndex = 0;
+  selectedAnswerIndex: number = null;
+  finalScore: number;
+  testResult: TestResult
+
+  @HostBinding('attr.isNewMode')
+  get isNewMode() {
+    return this.isNewTest;
+  }
 
   constructor(
     private testsService: TestsService,
@@ -54,7 +62,6 @@ export class TestResultPageComponent {
       });
   }
 
-
   onTestItemClick(event: DropdownChangeEvent) {
     this.selectedTest = this.tests.find((t) => t.name === event.value?.name);
     if (this.selectedTest) {
@@ -76,6 +83,7 @@ export class TestResultPageComponent {
           return { ...a, isSelected: i === this.selectedAnswerIndex };
         }
       );
+    this.selectedAnswerIndex = null;
   }
 
   onNextQuestion() {
@@ -83,25 +91,25 @@ export class TestResultPageComponent {
     if (this.currentCriteriaIndex < this.selectedTest.criterias?.length) {
       this.currentCriteriaIndex++;
       this.currentCriteriaNextIndex = this.currentCriteriaIndex + 1;
-    } else {
-      this.testDone = true;
     }
     this.cd.markForCheck();
   }
 
   onDoneTest() {
+    this.testDone = true;
+
     this.updateSelectedAnswer();
     console.log(this.selectedTest);
     console.log(this.companyNameInputValue);
-    const finalScore: number = Number(this.calcFinalScore().toFixed(1));
-
-    this.testsService.saveNewTestResult({
+    this.finalScore = Number(this.calcFinalScore().toFixed(1));
+    this.testResult = {
       id: '1',
       companyName: this.companyNameInputValue,
-      finalScore: finalScore,
-      scoreSeverity: this.scoreToSeverityMap(finalScore),
+      finalScore: this.finalScore,
+      scoreSeverity: this.scoreToSeverityMap(this.finalScore),
       tests: [this.selectedTest],
-    });
+    }
+    this.testsService.saveNewTestResult(this.testResult);
   }
 
   calcFinalScore() {
