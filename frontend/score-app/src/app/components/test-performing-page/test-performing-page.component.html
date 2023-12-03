@@ -1,7 +1,11 @@
-<p-button label="Start new test" (onClick)="onNewTestClick()"></p-button>
-
+<p-button
+  class="new-test-btn"
+  label="Start new test"
+  (onClick)="onNewTestClick()"
+></p-button>
 
 <p-listbox
+  class="tests-list"
   [options]="testsResults"
   [(ngModel)]="selectedTestResult"
   optionLabel="companyName"
@@ -12,8 +16,11 @@
 >
   <ng-template let-testResult pTemplate="item">
     <div class="flex align-items-center gap-2">
-      <p-tag [severity]="testResult?.scoreSeverity" [value]="testResult?.finalScore"></p-tag>
       <div>{{ testResult.companyName }}</div>
+      <p-tag
+        [severity]="testResult?.scoreSeverity"
+        [value]="testResult?.finalScore"
+      ></p-tag>
     </div>
   </ng-template>
 </p-listbox>
