@@ -1,14 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ListboxClickEvent, ListboxModule } from 'primeng/listbox';
+import { ListboxClickEvent } from 'primeng/listbox';
 import { TestsService } from '../../services/tests.service';
 import { Router } from '@angular/router';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { FormsModule } from '@angular/forms';
-import { TestResult, TestScoreSeverity } from '../../models/test-result.model';
-import { TagModule } from 'primeng/tag';
+import { TestResult } from '../../models/test-result.model';
 import { ROUTES } from 'src/app/app-routing.module';
-
-const PRIME_NG_MODULES = [ListboxModule, TagModule];
 
 @UntilDestroy()
 @Component({

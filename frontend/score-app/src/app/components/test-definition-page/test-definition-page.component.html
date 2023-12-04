@@ -1,4 +1,8 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="error-message" *ngIf="showErrorMessage">
+    {{ MAX_WEIGHT_ERROR }}
+  </div>
+
   <section>
     <span class="p-float-label">
       <input pInputText id="name" formControlName="name" />
@@ -88,6 +92,12 @@
 
   <div class="form-btns">
     <p-button label="Add criteria" (onClick)="addCriteria()"></p-button>
-    <button type="submit" pButton pRipple label="Submit" class="p-button-success"></button>
+    <button
+      type="submit"
+      pButton
+      pRipple
+      label="Submit"
+      class="p-button-success"
+    ></button>
   </div>
 </form>

@@ -1,26 +1,43 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators,
+  ValidatorFn,
 } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
 import { TestsService } from '../../services/tests.service';
-import { ButtonModule } from 'primeng/button';
 import { TestModel } from '../../models/test.model';
-import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 
-@UntilDestroy()
 @Component({
   selector: 'app-test-definition-page',
   templateUrl: './test-definition-page.component.html',
   styleUrls: ['./test-definition-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestDefinitionPageComponent {
   form: FormGroup;
+  showErrorMessage: boolean;
+  readonly MAX_WEIGHT_ERROR =
+    'The sum of all `weight` fields should not be grater than 1';
+
+  sumValidator: ValidatorFn = (
+    control: AbstractControl
+  ): { [key: string]: boolean } | null => {
+    const criterias = control.get('criterias') as FormArray;
+    try {
+      const sum = criterias.controls.reduce((acc, criteriaControl) => {
+        const weightControl = criteriaControl.get('weight');
+        return acc + (weightControl ? Number(weightControl.value) : 0);
+      }, 0);
+
+      return sum <= 1 ? null : { sumExceeded: true };
+    } catch (e) {
+      console.log(criterias);
+      return null;
+    }
+  };
 
   get name() {
     return this.form.get('name') as FormControl;
@@ -37,11 +54,14 @@ export class TestDefinitionPageComponent {
   constructor(private fb: FormBuilder, private testsService: TestsService) {}
 
   ngOnInit(): void {
-    this.form = this.fb.group({
-      name: [''],
-      description: [''],
-      criterias: this.fb.array([]),
-    });
+    this.form = this.fb.group(
+      {
+        name: [''],
+        description: [''],
+        criterias: this.fb.array([]),
+      },
+      { validators: this.sumValidator }
+    );
   }
 
   buildCriteriaControls() {
@@ -74,19 +94,25 @@ export class TestDefinitionPageComponent {
   }
 
   onSubmit() {
-    console.log(this.form.value);
+    if (this.form.hasError('sumExceeded')) {
+      this.showErrorMessage = true;
+      return;
+    }
+
     this.testsService.saveNewTest({
       id: 'TEMP_ID',
       name: this.form.get('name').value,
       description: this.form.get('description').value,
       criterias: this.form.get('criterias').value,
     } as TestModel);
+
     this.resetForm();
   }
 
   resetForm() {
     this.form.reset();
     this.resetCriterias();
+    this.showErrorMessage = false;
   }
 
   resetCriterias() {
