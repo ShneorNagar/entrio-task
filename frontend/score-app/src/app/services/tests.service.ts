@@ -320,6 +320,7 @@ export class TestsService {
                 {
                   text: 'answer2',
                   score: 2,
+                  isSelected: true
                 },
                 {
                   text: 'answer3',
